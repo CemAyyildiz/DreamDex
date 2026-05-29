@@ -88,6 +88,90 @@ POOL_ABI = [
     },
 ]
 
+ROUTER_ABI = [
+    {
+        "inputs": [
+            {"internalType": "tuple[]", "name": "route", "type": "tuple[]"},
+            {"internalType": "address", "name": "inputToken", "type": "address"},
+            {"internalType": "uint256", "name": "inputAmount", "type": "uint256"},
+        ],
+        "name": "quoteMarketExactIn",
+        "outputs": [
+            {"internalType": "bool", "name": "ok", "type": "bool"},
+            {"internalType": "uint256", "name": "amountIn", "type": "uint256"},
+            {"internalType": "uint256", "name": "amountOut", "type": "uint256"},
+            {"internalType": "tuple[]", "name": "legs", "type": "tuple[]"},
+        ],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
+        "inputs": [
+            {"internalType": "tuple[]", "name": "route", "type": "tuple[]"},
+            {"internalType": "address", "name": "inputToken", "type": "address"},
+            {"internalType": "address", "name": "outputToken", "type": "address"},
+            {"internalType": "uint256", "name": "outputAmount", "type": "uint256"},
+        ],
+        "name": "quoteExactOut",
+        "outputs": [
+            {"internalType": "bool", "name": "ok", "type": "bool"},
+            {"internalType": "uint256", "name": "amountIn", "type": "uint256"},
+            {"internalType": "uint256", "name": "amountOut", "type": "uint256"},
+            {"internalType": "tuple[]", "name": "legs", "type": "tuple[]"},
+        ],
+        "stateMutability": "view",
+        "type": "function",
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {"internalType": "address", "name": "inputToken", "type": "address"},
+                    {"internalType": "uint256", "name": "inputAmount", "type": "uint256"},
+                    {"internalType": "address", "name": "outputToken", "type": "address"},
+                    {"internalType": "uint256", "name": "minOutputAmount", "type": "uint256"},
+                    {"internalType": "tuple[]", "name": "route", "type": "tuple[]"},
+                    {"internalType": "uint64", "name": "deadlineNs", "type": "uint64"},
+                ],
+                "internalType": "struct ISpotRouter.SwapExactInParams",
+                "name": "params",
+                "type": "tuple",
+            }
+        ],
+        "name": "swapExactIn",
+        "outputs": [
+            {"internalType": "uint256", "name": "amountOut", "type": "uint256"},
+            {"internalType": "uint256", "name": "amountInUsed", "type": "uint256"},
+        ],
+        "stateMutability": "payable",
+        "type": "function",
+    },
+    {
+        "inputs": [
+            {
+                "components": [
+                    {"internalType": "address", "name": "inputToken", "type": "address"},
+                    {"internalType": "uint256", "name": "maxInputAmount", "type": "uint256"},
+                    {"internalType": "address", "name": "outputToken", "type": "address"},
+                    {"internalType": "uint256", "name": "outputAmount", "type": "uint256"},
+                    {"internalType": "tuple[]", "name": "route", "type": "tuple[]"},
+                    {"internalType": "uint64", "name": "deadlineNs", "type": "uint64"},
+                ],
+                "internalType": "struct ISpotRouter.SwapExactOutParams",
+                "name": "params",
+                "type": "tuple",
+            }
+        ],
+        "name": "swapExactOut",
+        "outputs": [
+            {"internalType": "uint256", "name": "amountIn", "type": "uint256"},
+            {"internalType": "uint256", "name": "amountOutReceived", "type": "uint256"},
+        ],
+        "stateMutability": "payable",
+        "type": "function",
+    },
+]
+
 
 ERC20_ABI = [
     {
@@ -171,6 +255,14 @@ class LiveDreamDexBot:
         self.metrics = {"orders": 0, "volume_in_raw": 0, "volume_out_raw": 0, "errors": 0}
         self.market = self._load_market()
         self.pool = self.web3.eth.contract(address=self.market.pool, abi=POOL_ABI)
+        # Router configuration (optional)
+        self.use_router = bool(cfg.get("use_router", False))
+        self.router_address = cfg.get("router_address")
+        self.router = None
+        if self.use_router:
+            if not self.router_address:
+                raise RuntimeError("use_router is true but router_address not set in config")
+            self.router = self.web3.eth.contract(address=Web3.to_checksum_address(self.router_address), abi=ROUTER_ABI)
         self.base_token_contract = None if self.market.base_is_native else self.web3.eth.contract(
             address=self.market.base, abi=ERC20_ABI
         )
@@ -366,11 +458,110 @@ class LiveDreamDexBot:
         return None
 
     def _order_value(self, is_bid: bool, quantity_raw: int) -> int:
-        # Buy (is_bid=True): quote token (USDso) ödenir - ERC20 ise value=0
-        # Sell (is_bid=False): base token (SOMI) satılır - value=0 (contract wallet'tan transfer eder)
+        # Native input must be attached as msg.value for both buy and sell flows.
         if is_bid and self.market.quote_is_native:
             return quantity_raw
+        if not is_bid and self.market.base_is_native:
+            return quantity_raw
         return 0
+
+    def _tick_align_away(self, price: int, is_bid: bool) -> int:
+        # Round price away from user's interest then align to tick
+        # For bids (user pays more), round up; for asks (user receives less), round down.
+        return self._align_price(price, is_bid)
+
+    def _swap_via_router(self, is_bid: bool, quantity_raw: int) -> str:
+        if not self.router:
+            raise RuntimeError("Router not configured")
+
+        # Single-leg route using the market's pool
+        leg = (self.market.pool, 0, 0)  # (pool, priceLimit, quantity)
+        route = [leg]
+
+        # Sell (is_bid=False): input = base -> output = quote, use swapExactIn
+        if not is_bid:
+            input_token = self.market.base if not self.market.base_is_native else NATIVE_TOKEN
+            output_token = self.market.quote
+            # Quote what we'd get for exact input
+            try:
+                q = self.router.functions.quoteMarketExactIn(route, input_token, int(quantity_raw)).call()
+            except Exception as exc:
+                logger.warning(f"router quoteMarketExactIn failed: {exc}")
+                raise
+            ok = q[0]
+            amount_out = int(q[2])
+            if not ok and amount_out == 0:
+                raise RuntimeError("Router quote indicates no liquidity for this sell size")
+            min_output = (amount_out * (10_000 - self.slippage_bps)) // 10_000
+
+            # Build live route with priceLimit based on worstFillPrice
+            worst = int(q[3][0][3]) if q[3] and len(q[3]) > 0 and len(q[3][0]) > 3 else 0
+            price_limit = self._tick_align_away(int(worst * (10_000 - self.slippage_bps) // 10_000), False)
+            live_route = [(self.market.pool, int(price_limit), 0)]
+
+            params = (
+                input_token,
+                int(quantity_raw),
+                output_token,
+                int(min_output),
+                [(r[0], r[1], r[2]) for r in live_route],
+                int((time.time() + self.deadline_sec) * 1e9),
+            )
+
+            # Build and send tx
+            tx = self.router.functions.swapExactIn(params).build_transaction(self._build_base_tx())
+            # For native input, attach msg.value
+            if input_token == NATIVE_TOKEN:
+                tx["value"] = int(quantity_raw)
+            try:
+                tx["gas"] = self.web3.eth.estimate_gas(tx)
+            except Exception as exc:
+                logger.warning(f"estimate_gas reverted during router swapExactIn: {exc}")
+                tx["gas"] = int(self.cfg.get("fallback_gas", 300000))
+            tx_hash = self._sign_and_send(tx)
+            return tx_hash
+
+        # Buy (is_bid=True): want exact base output -> use quoteExactOut + swapExactOut
+        input_token = self.market.quote if not self.market.quote_is_native else NATIVE_TOKEN
+        output_token = self.market.base
+        try:
+            q = self.router.functions.quoteExactOut(route, input_token, output_token, int(quantity_raw)).call()
+        except Exception as exc:
+            logger.warning(f"router quoteExactOut failed: {exc}")
+            raise
+        ok = q[0]
+        amount_in = int(q[1])
+        if not ok and amount_in == 0:
+            raise RuntimeError("Router quoteExactOut indicates no liquidity for this buy size")
+
+        # max input allowed with slippage cushion
+        max_input = (amount_in * (10_000 + self.slippage_bps)) // 10_000
+        # Align live route: set quantity to desired exact output (lot-aligned)
+        qty = self._align_to_lot(int(quantity_raw))
+        worst = int(q[3][0][3]) if q[3] and len(q[3]) > 0 and len(q[3][0]) > 3 else 0
+        price_limit = self._tick_align_away(int(worst * (10_000 + self.slippage_bps) // 10_000), True)
+        live_route = [(self.market.pool, int(price_limit), int(qty))]
+
+        params = (
+            input_token,
+            int(max_input),
+            output_token,
+            int(qty),
+            [(r[0], r[1], r[2]) for r in live_route],
+            int((time.time() + self.deadline_sec) * 1e9),
+        )
+
+        tx = self.router.functions.swapExactOut(params).build_transaction(self._build_base_tx())
+        # Native input must set msg.value
+        if input_token == NATIVE_TOKEN:
+            tx["value"] = int(max_input)
+        try:
+            tx["gas"] = self.web3.eth.estimate_gas(tx)
+        except Exception as exc:
+            logger.warning(f"estimate_gas reverted during router swapExactOut: {exc}")
+            tx["gas"] = int(self.cfg.get("fallback_gas", 300000))
+        tx_hash = self._sign_and_send(tx)
+        return tx_hash
 
     def _submit_order(self, is_bid: bool, quantity_raw: int, price_raw: int) -> str:
         expire_timestamp_ns = int((time.time() + self.deadline_sec) * 1e9)
@@ -383,6 +574,9 @@ class LiveDreamDexBot:
         # call estimate_gas (which can revert when simulating failing txn).
         base_tx = self._build_base_tx()
         base_tx["gas"] = int(self.cfg.get("fallback_gas", 300000))
+
+        if self.use_router:
+            return self._swap_via_router(is_bid, quantity_raw)
 
         tx = self.pool.functions.placeTakerOrderWithoutVault(
             is_bid,

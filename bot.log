@@ -5619,3 +5619,575 @@ Traceback (most recent call last):
   File "/Users/cemayyildiz/projects/DreamDex/.venv/lib/python3.14/site-packages/requests/adapters.py", line 711, in send
     raise ConnectionError(err, request=request)
 requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(54, 'Connection reset by peer'))
+2026-05-29 11:21:54,035 [INFO] Bot initialized: wallet=0x7273B462333a02C4933C009BF2F589a1467B89B4, market=SOMI:USDso
+2026-05-29 11:21:54,037 [INFO] Starting live bot — press Ctrl+C to stop
+2026-05-29 11:21:54,037 [INFO] Connected wallet: 0x7273B462333a02C4933C009BF2F589a1467B89B4
+2026-05-29 11:21:54,037 [INFO] Market: SOMI:USDso | pool=0x035De7403eac6872787779CCA7CCF1b4CDb61379
+2026-05-29 11:21:54,037 [INFO] Chain ID: 5031
+2026-05-29 11:21:54,037 [INFO] Base token: 0x28f34DeFd2b4CB48d9eE6d89f2Be4Bc601694c00 | Quote token: 0x00000022dA000002656c64D9eA6011ea952D008A
+2026-05-29 11:21:54,260 [INFO] Starting trading loop...
+2026-05-29 11:21:56,282 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:21:57,190 [ERROR] order error: Order failed: c35fe596e7e62da6944aa1a3a2e0a79c7ac7f02cd563ee6a2fb5672c5e3d36e0
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: c35fe596e7e62da6944aa1a3a2e0a79c7ac7f02cd563ee6a2fb5672c5e3d36e0
+2026-05-29 11:22:09,565 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:22:10,548 [ERROR] order error: Order failed: 99cc7c6fe5c9665f71d26e69d43579ec4fe26eb66531dcb9a96b74850a5e44d5
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 99cc7c6fe5c9665f71d26e69d43579ec4fe26eb66531dcb9a96b74850a5e44d5
+2026-05-29 11:22:24,231 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:22:25,003 [ERROR] order error: Order failed: a75aa802aed6ada82b08c45d7f41cae7a3826295738bdb61c1387f1d7fbabc61
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: a75aa802aed6ada82b08c45d7f41cae7a3826295738bdb61c1387f1d7fbabc61
+2026-05-29 11:22:35,949 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:22:36,716 [ERROR] order error: Order failed: 3d43292e8b2707e212cb65d5bf76ea598270cfdc1e6283efb100a8a8f6078b00
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 3d43292e8b2707e212cb65d5bf76ea598270cfdc1e6283efb100a8a8f6078b00
+2026-05-29 11:22:54,041 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:22:56,845 [ERROR] order error: Order failed: b1b8760e73517c46a3b23872ef278ed5666683214accfa183252e2e05b796c36
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: b1b8760e73517c46a3b23872ef278ed5666683214accfa183252e2e05b796c36
+2026-05-29 11:23:13,931 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:23:15,081 [ERROR] order error: Order failed: 6f5ce2fdefb24ab73fca9dce174ddfee6ba6eb4dbdec4852635dc2e205e66f87
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 6f5ce2fdefb24ab73fca9dce174ddfee6ba6eb4dbdec4852635dc2e205e66f87
+2026-05-29 11:23:28,262 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:23:29,564 [ERROR] order error: Order failed: 221ca3ca6b2201e59a719d45c4c8a6ee8e43b190c0bfc978ad8a51b694633f24
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 221ca3ca6b2201e59a719d45c4c8a6ee8e43b190c0bfc978ad8a51b694633f24
+2026-05-29 11:23:40,350 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:23:41,206 [ERROR] order error: Order failed: e08d87c54985ea316c1887137a449eb48890ffa066c151b78cc44545782d5b82
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: e08d87c54985ea316c1887137a449eb48890ffa066c151b78cc44545782d5b82
+2026-05-29 11:23:53,499 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:23:54,483 [ERROR] order error: Order failed: d1ec0ac05ba04a31586f49aa58f651049345368a91fe7d790861cb71c57263af
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: d1ec0ac05ba04a31586f49aa58f651049345368a91fe7d790861cb71c57263af
+2026-05-29 11:24:07,031 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:24:08,788 [ERROR] order error: Order failed: 782806871180b6ebd158d75ae17144e6fb4c69f0cb651b07d8b2e9c24bc49237
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 782806871180b6ebd158d75ae17144e6fb4c69f0cb651b07d8b2e9c24bc49237
+2026-05-29 11:24:21,127 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:24:22,198 [ERROR] order error: Order failed: 26419eede17889f97b4455ebd808aa5e6a70292c0e329dfe7218523b820019c9
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 26419eede17889f97b4455ebd808aa5e6a70292c0e329dfe7218523b820019c9
+2026-05-29 11:24:33,739 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:24:34,593 [ERROR] order error: Order failed: dfdeecc624bc4035399d6137a2bad9b52166561727484c8b6ff277cc798c4e62
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: dfdeecc624bc4035399d6137a2bad9b52166561727484c8b6ff277cc798c4e62
+2026-05-29 11:24:45,728 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:24:46,810 [ERROR] order error: Order failed: 3e31390bfb8fab9048c34775dcc5656999e0e12b2cfdbc7d56b24529c4d38d67
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 3e31390bfb8fab9048c34775dcc5656999e0e12b2cfdbc7d56b24529c4d38d67
+2026-05-29 11:24:57,393 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:24:58,424 [ERROR] order error: Order failed: 776fadd9628e823d9d1cc13b4bd71bb79e52003931336ebfcf4eec9ef6d6fe02
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 776fadd9628e823d9d1cc13b4bd71bb79e52003931336ebfcf4eec9ef6d6fe02
+2026-05-29 11:25:13,060 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:25:14,627 [ERROR] order error: Order failed: 14f1d80c4b858dccb3cab21459167db64b47988b2add21dc80ee0b050f2d1b92
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 14f1d80c4b858dccb3cab21459167db64b47988b2add21dc80ee0b050f2d1b92
+2026-05-29 11:25:28,712 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:25:30,008 [ERROR] order error: Order failed: 46dd92ff476a04a0be2c55d26ba84a710d9ffd21566b3a77197c2c9d602b391d
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 46dd92ff476a04a0be2c55d26ba84a710d9ffd21566b3a77197c2c9d602b391d
+2026-05-29 11:25:43,972 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:25:44,834 [ERROR] order error: Order failed: 815fb9a3cc52f66e096c45bc65ea46009a7fa29ba7be734afebb4c89e43eaa42
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 815fb9a3cc52f66e096c45bc65ea46009a7fa29ba7be734afebb4c89e43eaa42
+2026-05-29 11:26:03,131 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:26:05,528 [ERROR] order error: Order failed: 1b052e375191b0fc9f014d2f6e837baa94b2a7ef705a4fc0b255e9381b26fbfb
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 1b052e375191b0fc9f014d2f6e837baa94b2a7ef705a4fc0b255e9381b26fbfb
+2026-05-29 11:26:22,013 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:26:23,259 [ERROR] order error: Order failed: 4b401059cd70c3bb0d1c31faf1a1e8299795dbb1076a683dce6496094e521c25
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 4b401059cd70c3bb0d1c31faf1a1e8299795dbb1076a683dce6496094e521c25
+2026-05-29 11:26:37,409 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:26:38,945 [ERROR] order error: Order failed: 3139075a51e33031b5e7befed2f9efc4769f700411352dd5f7758eeb15757de9
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 3139075a51e33031b5e7befed2f9efc4769f700411352dd5f7758eeb15757de9
+2026-05-29 11:26:50,607 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:26:51,633 [ERROR] order error: Order failed: 75e62c7e99082795b603c63f8d338a713c631f10639450a1a36745dc266f85fe
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 75e62c7e99082795b603c63f8d338a713c631f10639450a1a36745dc266f85fe
+2026-05-29 11:27:03,253 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:27:04,102 [ERROR] order error: Order failed: c86552dcbda500484a4ae3de7ef8be859b67d18191d0b973cbd4f2872d7238b8
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: c86552dcbda500484a4ae3de7ef8be859b67d18191d0b973cbd4f2872d7238b8
+2026-05-29 11:27:15,601 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:27:16,898 [ERROR] order error: Order failed: 72dc028a4e8812f643dd46859b2a6d431b2527a5bd9b94e9cc34068ad2282958
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 72dc028a4e8812f643dd46859b2a6d431b2527a5bd9b94e9cc34068ad2282958
+2026-05-29 11:27:31,139 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:27:32,196 [ERROR] order error: Order failed: dfcf533e88dd8dd83463090b70dcc405da214042aabb7449ad663d73486d4a31
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: dfcf533e88dd8dd83463090b70dcc405da214042aabb7449ad663d73486d4a31
+2026-05-29 11:27:45,241 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:27:46,250 [ERROR] order error: Order failed: 9ce305a59597a26b4a29c29269fe204433810a7ff258f78412401be267699c75
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 9ce305a59597a26b4a29c29269fe204433810a7ff258f78412401be267699c75
+2026-05-29 11:27:59,094 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:27:59,949 [ERROR] order error: Order failed: 3f64a6b212354a22df1b41f3943b84d1b888ea1007923fe50ef21d524496b47f
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 3f64a6b212354a22df1b41f3943b84d1b888ea1007923fe50ef21d524496b47f
+2026-05-29 11:28:13,427 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:28:14,618 [ERROR] order error: Order failed: 99d3d8b63a32aac29d90870230a33df529d840d6abf87bd5776016c8020fb287
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 99d3d8b63a32aac29d90870230a33df529d840d6abf87bd5776016c8020fb287
+2026-05-29 11:28:25,718 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:28:26,593 [ERROR] order error: Order failed: 64009323e54946269eae52aed3fe6fb14df11854d65889ca831b3671713a5b7d
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 64009323e54946269eae52aed3fe6fb14df11854d65889ca831b3671713a5b7d
+2026-05-29 11:28:39,983 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:28:41,068 [ERROR] order error: Order failed: 782aa12c9b58eb55a85fcab82b1ed52652a2ec39393b0e55a1dbf97937dbf57a
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 782aa12c9b58eb55a85fcab82b1ed52652a2ec39393b0e55a1dbf97937dbf57a
+2026-05-29 11:28:55,046 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:28:56,161 [ERROR] order error: Order failed: bb403124037949044505bb1083d5a86c7a49e6deece318616982164356958ef6
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: bb403124037949044505bb1083d5a86c7a49e6deece318616982164356958ef6
+2026-05-29 11:29:07,282 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:29:08,487 [ERROR] order error: Order failed: 7aa7cf56d40a848771ca2a5ca5490849e0281ce5a459bd24f321083927cdab02
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 7aa7cf56d40a848771ca2a5ca5490849e0281ce5a459bd24f321083927cdab02
+2026-05-29 11:29:24,070 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:29:25,495 [ERROR] order error: Order failed: 48800a226ec2ae2601e0b82eab7e07a90138610e756f0df51bf51f6d030fd0b8
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 48800a226ec2ae2601e0b82eab7e07a90138610e756f0df51bf51f6d030fd0b8
+2026-05-29 11:29:39,462 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:29:40,289 [ERROR] order error: Order failed: f33a81f3f48b18f3957cd72d93ecc73e2a14c926f957c7a9a2be1056534a199b
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: f33a81f3f48b18f3957cd72d93ecc73e2a14c926f957c7a9a2be1056534a199b
+2026-05-29 11:29:53,026 [WARNING] Order simulation rejected; skipping this round.
+2026-05-29 11:30:05,536 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:30:06,389 [ERROR] order error: Order failed: 915a796ad43776a6b1baac0b8659f225608c34ae9a8494955e26cb69d396f071
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 915a796ad43776a6b1baac0b8659f225608c34ae9a8494955e26cb69d396f071
+2026-05-29 11:30:19,907 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:30:20,836 [ERROR] order error: Order failed: 025da7314fef58b87daf81e8e854b2f301c7dfb46d5220fe8a5f643a62d66969
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 025da7314fef58b87daf81e8e854b2f301c7dfb46d5220fe8a5f643a62d66969
+2026-05-29 11:30:33,581 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:30:47,454 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:30:48,661 [ERROR] order error: Order failed: 05940f1bf2c12cb2f1d653f14cf2ffb5386c42b4eefc6ae6701b022346089d20
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 05940f1bf2c12cb2f1d653f14cf2ffb5386c42b4eefc6ae6701b022346089d20
+2026-05-29 11:31:02,503 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:31:03,506 [ERROR] order error: Order failed: 43d2f9cc063b921698b9d65ea7995f458aed2b80949087c0ba1db402dabda1ea
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 43d2f9cc063b921698b9d65ea7995f458aed2b80949087c0ba1db402dabda1ea
+2026-05-29 11:31:13,363 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:31:24,313 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:31:39,692 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:31:40,797 [ERROR] order error: Order failed: 9a8360edaf6bc463b2ced17fd2fa0a709fdad306d9d2a46f47b61fe0c1cc5b15
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 9a8360edaf6bc463b2ced17fd2fa0a709fdad306d9d2a46f47b61fe0c1cc5b15
+2026-05-29 11:31:52,978 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:31:54,000 [ERROR] order error: Order failed: 03f4e35725d00eb77e0c8cc9bde17b51f1739721c076a13a51a7425a02ed64cd
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 03f4e35725d00eb77e0c8cc9bde17b51f1739721c076a13a51a7425a02ed64cd
+2026-05-29 11:32:13,453 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:32:14,642 [ERROR] order error: Order failed: 9e6f071d199ae10eaa06db41626aa3bd7532142134c4a901b4b9a49fdf72a624
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 9e6f071d199ae10eaa06db41626aa3bd7532142134c4a901b4b9a49fdf72a624
+2026-05-29 11:32:26,533 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:32:28,730 [ERROR] order error: Order failed: fc430a55e7cb40696b88bee622540426f9c8bd8a44b9ff9f6e308c9b768b67b4
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: fc430a55e7cb40696b88bee622540426f9c8bd8a44b9ff9f6e308c9b768b67b4
+2026-05-29 11:32:43,388 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:32:44,370 [ERROR] order error: Order failed: 55a123c83b67af2566010a9a8ff6a5bbad93722daa7ffe71c96a4156364abe75
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 55a123c83b67af2566010a9a8ff6a5bbad93722daa7ffe71c96a4156364abe75
+2026-05-29 11:32:59,295 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:33:00,337 [ERROR] order error: Order failed: 8b607e83e5c9be95849712abe6687477690f69063705bcae7d1cb5b0f6339962
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 8b607e83e5c9be95849712abe6687477690f69063705bcae7d1cb5b0f6339962
+2026-05-29 11:33:14,485 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:33:15,529 [ERROR] order error: Order failed: 65fadde2e4c8b3c8555236c4359cdb007a41084d65bb8a7d94af7ce0dedbbd1c
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 65fadde2e4c8b3c8555236c4359cdb007a41084d65bb8a7d94af7ce0dedbbd1c
+2026-05-29 11:33:31,450 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:33:32,587 [ERROR] order error: Order failed: 789a7e20ccd6620fb047d325d3c384aebdd35c1684547c8ca9e5f4948ff73e43
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 789a7e20ccd6620fb047d325d3c384aebdd35c1684547c8ca9e5f4948ff73e43
+2026-05-29 11:33:46,619 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:33:47,953 [ERROR] order error: Order failed: 235c4b48e68cd8035c49b954538f4b977a8dc78085e0954953a19823e896e9aa
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 235c4b48e68cd8035c49b954538f4b977a8dc78085e0954953a19823e896e9aa
+2026-05-29 11:33:59,583 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:34:00,742 [ERROR] order error: Order failed: f9bb1336f2b1363880462265b28f1007b460a97521182dfc95c746391da1228e
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: f9bb1336f2b1363880462265b28f1007b460a97521182dfc95c746391da1228e
+2026-05-29 11:34:16,703 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:34:17,913 [ERROR] order error: Order failed: 75e11e70e691c22f916173391292f1d848ed2c29adc86e9d90421dc164faa1e3
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 75e11e70e691c22f916173391292f1d848ed2c29adc86e9d90421dc164faa1e3
+2026-05-29 11:34:35,460 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:34:36,493 [ERROR] order error: Order failed: c7d6cd263bfd06a9337a06e286c457812215be298e2d72035cd0aca721cebfc2
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: c7d6cd263bfd06a9337a06e286c457812215be298e2d72035cd0aca721cebfc2
+2026-05-29 11:34:52,104 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:34:53,736 [ERROR] order error: Order failed: a210719d0e671cc504f8a99285ae1f703d146f9605366a0ef51c7e6c311d8403
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: a210719d0e671cc504f8a99285ae1f703d146f9605366a0ef51c7e6c311d8403
+2026-05-29 11:35:05,295 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:35:06,364 [ERROR] order error: Order failed: ded002c756a221b19330ddb66392be148209a970a6ae32a334018e480a2a87a5
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: ded002c756a221b19330ddb66392be148209a970a6ae32a334018e480a2a87a5
+2026-05-29 11:35:19,479 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:35:20,446 [ERROR] order error: Order failed: bd5f6d1f837949166e86bf6851d5aeeb906e1687e33925034e1d1fd19c01985d
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: bd5f6d1f837949166e86bf6851d5aeeb906e1687e33925034e1d1fd19c01985d
+2026-05-29 11:35:32,034 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:35:33,000 [ERROR] order error: Order failed: f2508f67efe2549fdcfc924bc20813f45a4efe5750110b55f1251fe5cfe399f2
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: f2508f67efe2549fdcfc924bc20813f45a4efe5750110b55f1251fe5cfe399f2
+2026-05-29 11:35:46,794 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:35:47,827 [ERROR] order error: Order failed: acaa1590253423ed80d1244742ff8c67fa75089e0a266b6d4b8b1177cd9d1211
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: acaa1590253423ed80d1244742ff8c67fa75089e0a266b6d4b8b1177cd9d1211
+2026-05-29 11:36:26,302 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:36:27,206 [ERROR] order error: Order failed: 04b0d6319fdea747310e4261774461a6f54578d2799db9d720825ed17f92e59b
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 04b0d6319fdea747310e4261774461a6f54578d2799db9d720825ed17f92e59b
+2026-05-29 11:36:38,991 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:36:51,433 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:36:52,495 [ERROR] order error: Order failed: d42049a16a74a9a434957ff8a5e442fbd6ff5166495391d24125ae67d6f304d3
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: d42049a16a74a9a434957ff8a5e442fbd6ff5166495391d24125ae67d6f304d3
+2026-05-29 11:37:05,906 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:37:07,009 [ERROR] order error: Order failed: e6d43800d550d85382095b2acd137e84a48d3f03e5cbae2f3864150db771bd95
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: e6d43800d550d85382095b2acd137e84a48d3f03e5cbae2f3864150db771bd95
+2026-05-29 11:37:20,746 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:37:21,844 [ERROR] order error: Order failed: b1dbee1cc3c78c6877710abee2b7e3a97af7335125e09c5e048a251b9257e853
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: b1dbee1cc3c78c6877710abee2b7e3a97af7335125e09c5e048a251b9257e853
+2026-05-29 11:37:34,404 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:37:35,531 [ERROR] order error: Order failed: 79f3379ee15e12b0b9a88eae33f581caf9b32ca7c91a439cb644c15eb8762a46
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 79f3379ee15e12b0b9a88eae33f581caf9b32ca7c91a439cb644c15eb8762a46
+2026-05-29 11:37:47,578 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:37:48,751 [ERROR] order error: Order failed: 397aab04a83f56d538ed03178e48f2e7fa40a5ed7e7467f3de028100fcb2f567
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 397aab04a83f56d538ed03178e48f2e7fa40a5ed7e7467f3de028100fcb2f567
+2026-05-29 11:37:57,418 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:38:10,197 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:38:11,869 [ERROR] order error: Order failed: 3323ca1242fcef038863f26bde4d89ed3791a02e6e501c4d71ac449b50e76a34
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 3323ca1242fcef038863f26bde4d89ed3791a02e6e501c4d71ac449b50e76a34
+2026-05-29 11:38:23,362 [WARNING] Order simulation rejected; skipping this round.
+2026-05-29 11:38:36,232 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:38:37,289 [ERROR] order error: Order failed: 1bc080d33b8d3a4096da8d3e3458c8e215c38c4e1b790926d1d37f174545d3da
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 1bc080d33b8d3a4096da8d3e3458c8e215c38c4e1b790926d1d37f174545d3da
+2026-05-29 11:38:48,701 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:38:59,403 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:39:43,208 [WARNING] Order simulation rejected; skipping this round.
+2026-05-29 11:39:56,258 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:39:57,241 [ERROR] order error: Order failed: 7c8e2736c341880cc521bbdd6fa507c9caa0945f0e102fb473756a9b05cb6b52
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 7c8e2736c341880cc521bbdd6fa507c9caa0945f0e102fb473756a9b05cb6b52
+2026-05-29 11:40:08,053 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:40:08,987 [ERROR] order error: Order failed: fb8d973086bf648b3d4e9816f0dbae7e6474a5bc69b4ac364cb2cee129879966
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: fb8d973086bf648b3d4e9816f0dbae7e6474a5bc69b4ac364cb2cee129879966
+2026-05-29 11:40:22,322 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:40:23,299 [ERROR] order error: Order failed: 80c22dd6addc0ebca53fd33e1d564c820c3a50c7b9bcafa8299868893fa40b31
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 80c22dd6addc0ebca53fd33e1d564c820c3a50c7b9bcafa8299868893fa40b31
+2026-05-29 11:40:37,937 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:40:39,060 [ERROR] order error: Order failed: 705f87db9442e88a05ef715897709bcf583060e9e58623a04e597331e3ed89a4
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 705f87db9442e88a05ef715897709bcf583060e9e58623a04e597331e3ed89a4
+2026-05-29 11:40:50,437 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:41:01,042 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:41:14,199 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:41:15,318 [ERROR] order error: Order failed: 016dcae8e796910b7197c8b0a55f34ab7c6e917a591ed787e8fc8b33e5354260
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: 016dcae8e796910b7197c8b0a55f34ab7c6e917a591ed787e8fc8b33e5354260
+2026-05-29 11:41:28,914 [WARNING] Order simulation rejected; skipping this round.
+2026-05-29 11:41:44,819 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:41:47,388 [ERROR] order error: Order failed: ba49c093e8747f753a95cc070d95bfded1d7cff3261b58f8686802c4898953e3
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    raise RuntimeError(f"Order failed: {tx_hash}")
+RuntimeError: Order failed: ba49c093e8747f753a95cc070d95bfded1d7cff3261b58f8686802c4898953e3
+2026-05-29 11:42:00,892 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:42:01,985 [ERROR] order error: Order failed: d4a36508e2c6d64c415c5630d1eaad50f54c52187738cac9f33660020fcabf71
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: d4a36508e2c6d64c415c5630d1eaad50f54c52187738cac9f33660020fcabf71
+2026-05-29 11:42:26,883 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:42:28,050 [ERROR] order error: Order failed: d446af875e7a539652435ee920a5acae58bd08192f2455927bc7240e08c3974d
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: d446af875e7a539652435ee920a5acae58bd08192f2455927bc7240e08c3974d
+2026-05-29 11:42:40,336 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:42:41,448 [ERROR] order error: Order failed: 8b9575a4d81a2f26feb2fe6d535b517b951ba7b0129fc387a50b3ccfa9e29ae9
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 8b9575a4d81a2f26feb2fe6d535b517b951ba7b0129fc387a50b3ccfa9e29ae9
+2026-05-29 11:42:51,301 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:43:04,071 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:43:05,198 [ERROR] order error: Order failed: 26f8896a933b7b235f486094e9ed68fd4a848ffd631ee372382db14ef9340c4d
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 26f8896a933b7b235f486094e9ed68fd4a848ffd631ee372382db14ef9340c4d
+2026-05-29 11:43:16,732 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:43:17,725 [ERROR] order error: Order failed: b09ecc7464affa092fadd14d9372b4b1641dc22336af99cf668e819a277ec5e9
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: b09ecc7464affa092fadd14d9372b4b1641dc22336af99cf668e819a277ec5e9
+2026-05-29 11:43:27,740 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:43:40,534 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:43:41,626 [ERROR] order error: Order failed: bcf1bac2514cfc6862979df7b86ceaab2f78306e3aa42fb787f62ee3ca467cf5
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: bcf1bac2514cfc6862979df7b86ceaab2f78306e3aa42fb787f62ee3ca467cf5
+2026-05-29 11:43:52,814 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:44:05,479 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:44:06,640 [ERROR] order error: Order failed: 60d5fb4f873518d0e611a0e8773d3bac65fc22fe7524a56e37ee544974135ca9
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 60d5fb4f873518d0e611a0e8773d3bac65fc22fe7524a56e37ee544974135ca9
+2026-05-29 11:44:18,982 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:44:20,056 [ERROR] order error: Order failed: a2db8a18591574ae7df2c16961ab2c53e4041e909160012dd3939c5b5cec397f
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: a2db8a18591574ae7df2c16961ab2c53e4041e909160012dd3939c5b5cec397f
+2026-05-29 11:44:30,741 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:44:43,885 [WARNING] Order simulation rejected; skipping this round.
+2026-05-29 11:44:54,623 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:45:07,589 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:45:08,713 [ERROR] order error: Order failed: 562170e517f6ae04968b036e4402c2178d7593b4222e8975553b4fd279951775
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 562170e517f6ae04968b036e4402c2178d7593b4222e8975553b4fd279951775
+2026-05-29 11:45:18,146 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:45:32,089 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:45:33,284 [ERROR] order error: Order failed: 9d75f757b00457cda631699827bf5527337714ccc000b4ec30f5bd6d3762b42a
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 9d75f757b00457cda631699827bf5527337714ccc000b4ec30f5bd6d3762b42a
+2026-05-29 11:46:00,871 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:46:01,736 [ERROR] order error: Order failed: 293e9b4683bc260dcafa7619a07a0f306e8a84d9993ac2b5ae8909b436638b1b
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 293e9b4683bc260dcafa7619a07a0f306e8a84d9993ac2b5ae8909b436638b1b
+2026-05-29 11:46:14,772 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:46:15,880 [ERROR] order error: Order failed: aa3e81fc6f3eb9608c9b201f47753ce3858722cc184cb49369cf20c61d04d578
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: aa3e81fc6f3eb9608c9b201f47753ce3858722cc184cb49369cf20c61d04d578
+2026-05-29 11:46:25,525 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:46:58,146 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:46:58,989 [ERROR] order error: Order failed: 90466229de48416fc299877951f0d3679282360dd2c9123e6e23ed3ea77d490b
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 90466229de48416fc299877951f0d3679282360dd2c9123e6e23ed3ea77d490b
+2026-05-29 11:47:10,603 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:47:23,285 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:47:24,213 [ERROR] order error: Order failed: 8717549efdf2f9190b1d930c8e85ba8af6bc1ca77c593bbdadbf52ae36d735a6
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 8717549efdf2f9190b1d930c8e85ba8af6bc1ca77c593bbdadbf52ae36d735a6
+2026-05-29 11:47:36,932 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:47:38,021 [ERROR] order error: Order failed: 90e1f6d43ba9aa8d12e50817ea33d1826ddfaa76ae2854088239095c444dfeb9
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 90e1f6d43ba9aa8d12e50817ea33d1826ddfaa76ae2854088239095c444dfeb9
+2026-05-29 11:47:51,683 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:47:52,867 [ERROR] order error: Order failed: 27efae54241acc9e1ba57fd3d37ad1b7fbd64497e4a77918630ef680264d6c0e
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 27efae54241acc9e1ba57fd3d37ad1b7fbd64497e4a77918630ef680264d6c0e
+2026-05-29 11:48:03,909 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:48:05,028 [ERROR] order error: Order failed: 7eb5791dfae07ed1087002e6425218d609d5f597952e65e345df155881400f1d
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: 7eb5791dfae07ed1087002e6425218d609d5f597952e65e345df155881400f1d
+2026-05-29 11:48:14,792 [WARNING] No book depth yet; retrying later.
+2026-05-29 11:48:27,743 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:48:29,176 [ERROR] order error: Order failed: e8bb8ab6717e62bd222ec5f6165d3f3531a983ea2b0086ad11893bb798174a76
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: e8bb8ab6717e62bd222ec5f6165d3f3531a983ea2b0086ad11893bb798174a76
+2026-05-29 11:48:41,033 [WARNING] estimate_gas reverted: ('execution reverted', '0x')
+2026-05-29 11:48:42,123 [ERROR] order error: Order failed: ffecaf7e3f747ae62bf1cda3b4bd33f414c5a72ef24747499c17c16af1620576
+Traceback (most recent call last):
+  File "/Users/cemayyildiz/projects/DreamDex/bot/executor.py", line 703, in run
+    if receipt.status != 1:
+        ^^^^^^^^^^^^^^^^^^^
+RuntimeError: Order failed: ffecaf7e3f747ae62bf1cda3b4bd33f414c5a72ef24747499c17c16af1620576
+2026-05-29 11:48:52,291 [WARNING] No book depth yet; retrying later.

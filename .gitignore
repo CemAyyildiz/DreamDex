@@ -6,3 +6,8 @@ config.yml
 .env
 metrics.json
 Meet.md
+
+# Feedback/report drafts
+reports/
+feedback-report.md
+feedback-report.*
