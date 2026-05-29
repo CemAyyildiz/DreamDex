@@ -18,3 +18,7 @@ slippage_bps: 50
 deadline_sec: 120
 max_orders: null
 priority_fee_gwei: 1
+# Bulk strategy: increase per-order size to raise volume with fewer transactions
+# bulk_mode: false
+# bulk_multiplier: 5
+# use_fok_for_bulk: true

@@ -239,6 +239,12 @@ class LiveDreamDexBot:
         self.max_orders = cfg.get("max_orders")
         self.min_input = Decimal(str(cfg.get("min_input", "0.01")))
         self.max_input = Decimal(str(cfg.get("max_input", "0.05")))
+        # Bulk/volume strategy: when enabled, increase per-order size to raise
+        # volume while keeping transaction count low. Can use FOK to avoid
+        # partial fills if desired.
+        self.bulk_mode = bool(cfg.get("bulk_mode", False))
+        self.bulk_multiplier = int(cfg.get("bulk_multiplier", 5))
+        self.use_fok_for_bulk = bool(cfg.get("use_fok_for_bulk", True))
         self.freq_sec = float(cfg.get("freq_sec", 10))
         self.slippage_bps = int(cfg.get("slippage_bps", 50))
         self.deadline_sec = int(cfg.get("deadline_sec", 120))
@@ -394,6 +400,10 @@ class LiveDreamDexBot:
         decimals = self.market.base_decimals
         low = int(Decimal(str(self.min_input)) * (Decimal(10) ** decimals))
         high = int(Decimal(str(self.max_input)) * (Decimal(10) ** decimals))
+        if self.bulk_mode:
+            # scale up both low and high bounds to create larger orders
+            low = int(low * self.bulk_multiplier)
+            high = int(high * self.bulk_multiplier)
         low = max(low, self.market.min_quantity)
         high = max(high, low)
         raw = random.randint(low, high)
@@ -566,8 +576,12 @@ class LiveDreamDexBot:
     def _submit_order(self, is_bid: bool, quantity_raw: int, price_raw: int) -> str:
         expire_timestamp_ns = int((time.time() + self.deadline_sec) * 1e9)
         # orderType: 0=GTC, 1=PostOnly, 2=IOC, 3=FOK
-        # Use IOC for taker orders so unfilled remainder is discarded.
+        # Select order type. Default IOC for taker orders so triggered
+        # sells don't revert; when bulk_mode enabled we may prefer FOK
+        # to avoid partial fills and reduce tx churn.
         order_type = 2
+        if self.bulk_mode and self.use_fok_for_bulk:
+            order_type = 3
         # Prevent web3 from auto-calling estimate_gas during build_transaction by
         # passing a conservative gas limit first, then attempt an explicit estimate.
         # Prefill a conservative gas in base tx so build_transaction does not
@@ -677,8 +691,11 @@ class LiveDreamDexBot:
                 continue
 
             try:
-                # Use IOC for taker orders so triggered sells don't revert.
+                # Select order type for simulation. Default IOC; use FOK
+                # for bulk-mode if configured.
                 order_type = 2
+                if self.bulk_mode and self.use_fok_for_bulk:
+                    order_type = 3
                 sim_result = self.pool.functions.placeTakerOrderWithoutVault(
                     is_bid,
                     0,
