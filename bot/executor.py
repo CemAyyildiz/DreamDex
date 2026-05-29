@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import os
 import random
 import time
@@ -10,6 +11,9 @@ from typing import Any, Dict, List, Optional, Tuple
 import requests
 from eth_account import Account
 from web3 import Web3
+from web3.exceptions import ContractCustomError
+
+logger = logging.getLogger(__name__)
 
 
 NATIVE_TOKEN = Web3.to_checksum_address("0x28f34DeFd2b4CB48d9eE6d89f2Be4Bc601694c00")
@@ -160,8 +164,9 @@ class LiveDreamDexBot:
         self.state_path = cfg.get("state_path", "bot_state.json")
         self.max_approval = int(cfg.get("max_approval", 2**256 - 1))
         self.priority_fee_gwei = cfg.get("priority_fee_gwei", 1)
-        self.builder = Web3.to_checksum_address(cfg.get("builder", ZERO_ADDRESS))
-        self.builder_fee_bps_times1k = int(cfg.get("builder_fee_bps_times1k", 0))
+        # Builder codes not supported in v1.0 - must be zero
+        self.builder = ZERO_ADDRESS
+        self.builder_fee_bps_times1k = 0
 
         self.metrics = {"orders": 0, "volume_in_raw": 0, "volume_out_raw": 0, "errors": 0}
         self.market = self._load_market()
@@ -175,6 +180,8 @@ class LiveDreamDexBot:
 
         if self.market.base_is_native and self.web3.eth.get_balance(self.address) == 0:
             raise RuntimeError(f"Wallet {self.address} has zero native balance; cannot trade native market")
+        
+        logger.info(f"Bot initialized: wallet={self.address}, market={self.market.symbol}")
 
     def _fetch_json(self, path: str) -> Dict[str, Any]:
         url = f"{self.market_data_base.rstrip('/')}{path}"
@@ -241,6 +248,8 @@ class LiveDreamDexBot:
             tx["type"] = 2
         else:
             tx["gasPrice"] = self.web3.eth.gas_price
+        # Prefill a conservative gas limit to avoid web3 auto-estimating during build
+        tx["gas"] = int(self.cfg.get("fallback_gas", 300000))
         return tx
 
     def _sign_and_send(self, tx: Dict[str, Any]) -> str:
@@ -279,7 +288,7 @@ class LiveDreamDexBot:
                 if tx_hash:
                     approvals.append(tx_hash)
             except Exception as exc:
-                print(f"Warning: approval failed for {token}: {exc}")
+                logger.warning(f"Approval failed for {token}: {exc}")
         return approvals
 
     def _align_to_lot(self, quantity_raw: int) -> int:
@@ -333,41 +342,86 @@ class LiveDreamDexBot:
     def _choose_side(self, quantity_raw: int, best_bid: int, best_ask: int) -> Optional[bool]:
         can_buy = self._can_afford(True, quantity_raw, self._price_for_order(True, best_bid, best_ask))
         can_sell = self._can_afford(False, quantity_raw, self._price_for_order(False, best_bid, best_ask))
+        
+        logger.debug(f"Side decision: can_buy={can_buy}, can_sell={can_sell}, orders={self.metrics['orders']}, qty={quantity_raw}")
 
         if self.only_buy:
             return True if can_buy else None
         if self.only_sell:
             return False if can_sell else None
 
+        # Bidirectional trading - alternate between buy and sell for maximum volume
         if can_buy and can_sell:
-            return (self.metrics["orders"] % 2) == 0
+            # Alternate based on order count for maximum volume
+            side = (self.metrics["orders"] % 2) == 0
+            logger.debug(f"Alternating side: {'buy' if side else 'sell'}")
+            return side
         if can_buy:
+            logger.debug("Only buy possible")
             return True
         if can_sell:
+            logger.debug("Only sell possible")
             return False
+        logger.warning("Neither buy nor sell possible")
         return None
 
     def _order_value(self, is_bid: bool, quantity_raw: int) -> int:
-        input_token = self.market.quote if is_bid else self.market.base
-        if input_token == self.native_token:
+        # Buy (is_bid=True): quote token (USDso) ödenir - ERC20 ise value=0
+        # Sell (is_bid=False): base token (SOMI) satılır - value=0 (contract wallet'tan transfer eder)
+        if is_bid and self.market.quote_is_native:
             return quantity_raw
         return 0
 
     def _submit_order(self, is_bid: bool, quantity_raw: int, price_raw: int) -> str:
         expire_timestamp_ns = int((time.time() + self.deadline_sec) * 1e9)
+        # orderType: 0=GTC, 1=PostOnly, 2=IOC, 3=FOK
+        # Use IOC for taker orders so unfilled remainder is discarded.
+        order_type = 2
+        # Prevent web3 from auto-calling estimate_gas during build_transaction by
+        # passing a conservative gas limit first, then attempt an explicit estimate.
+        # Prefill a conservative gas in base tx so build_transaction does not
+        # call estimate_gas (which can revert when simulating failing txn).
+        base_tx = self._build_base_tx()
+        base_tx["gas"] = int(self.cfg.get("fallback_gas", 300000))
+
         tx = self.pool.functions.placeTakerOrderWithoutVault(
             is_bid,
             0,
             int(price_raw),
             int(quantity_raw),
             int(expire_timestamp_ns),
-            2,
+            order_type,
             0,
             self.builder,
             self.builder_fee_bps_times1k,
-        ).build_transaction(self._build_base_tx())
+        ).build_transaction(base_tx)
+
         tx["value"] = self._order_value(is_bid, quantity_raw)
-        tx["gas"] = self.web3.eth.estimate_gas(tx)
+
+        # Try a fresh estimate now that build_transaction won't trigger it.
+        try:
+            estimated = self.web3.eth.estimate_gas(tx)
+            tx["gas"] = int(estimated)
+        except Exception as exc:
+            logger.warning(f"estimate_gas reverted: {exc}")
+            # Log contextual info to help debug sell-side reverts
+            try:
+                native_bal = self.web3.eth.get_balance(self.address)
+            except Exception:
+                native_bal = None
+            try:
+                base_bal = self._token_balance(self.market.base)
+            except Exception:
+                base_bal = None
+            try:
+                quote_bal = self._token_balance(self.market.quote)
+            except Exception:
+                quote_bal = None
+            logger.debug(
+                f"estimate_gas context: is_bid={is_bid} qty={quantity_raw} price={price_raw} "
+                f"native_bal={native_bal} base_bal={base_bal} quote_bal={quote_bal}"
+            )
+            # Keep the prefilled fallback gas
         tx_hash = self._sign_and_send(tx)
         return tx_hash
 
@@ -387,26 +441,27 @@ class LiveDreamDexBot:
             json.dump(state, handle)
 
     async def run(self) -> None:
-        print(f"Connected wallet: {self.address}")
-        print(f"Market: {self.market.symbol} | pool={self.market.pool}")
-        print(f"Chain ID: {self.cfg.get('chain_id', 5031)}")
-        print(f"Base token: {self.market.base} | Quote token: {self.market.quote}")
+        logger.info(f"Connected wallet: {self.address}")
+        logger.info(f"Market: {self.market.symbol} | pool={self.market.pool}")
+        logger.info(f"Chain ID: {self.cfg.get('chain_id', 5031)}")
+        logger.info(f"Base token: {self.market.base} | Quote token: {self.market.quote}")
 
         approvals = self.ensure_allowances()
         for approval_tx in approvals:
-            print(f"Approval submitted: {approval_tx}")
+            logger.info(f"Approval submitted: {approval_tx}")
 
         order_count = 0
+        logger.info("Starting trading loop...")
         while True:
             if self.max_orders is not None and order_count >= int(self.max_orders):
-                print("Reached max_orders; stopping.")
+                logger.info("Reached max_orders; stopping.")
                 break
 
             best_bid, best_ask = self._best_prices()
             if best_bid is None or best_ask is None:
                 self.metrics["errors"] += 1
                 self._save_metrics()
-                print("No book depth yet; retrying later.")
+                logger.warning("No book depth yet; retrying later.")
                 await asyncio.sleep(self.freq_sec)
                 continue
 
@@ -415,7 +470,7 @@ class LiveDreamDexBot:
             if is_bid is None:
                 self.metrics["errors"] += 1
                 self._save_metrics()
-                print("Insufficient wallet balance for either side; retrying later.")
+                logger.warning("Insufficient wallet balance for either side; retrying later.")
                 await asyncio.sleep(self.freq_sec)
                 continue
 
@@ -423,18 +478,20 @@ class LiveDreamDexBot:
             if not self._can_afford(is_bid, quantity_raw, price_raw):
                 self.metrics["errors"] += 1
                 self._save_metrics()
-                print("Balance check failed after pricing; retrying later.")
+                logger.warning("Balance check failed after pricing; retrying later.")
                 await asyncio.sleep(self.freq_sec)
                 continue
 
             try:
+                # Use IOC for taker orders so triggered sells don't revert.
+                order_type = 2
                 sim_result = self.pool.functions.placeTakerOrderWithoutVault(
                     is_bid,
                     0,
                     int(price_raw),
                     int(quantity_raw),
                     int((time.time() + self.deadline_sec) * 1e9),
-                    2,
+                    order_type,
                     0,
                     self.builder,
                     self.builder_fee_bps_times1k,
@@ -443,7 +500,7 @@ class LiveDreamDexBot:
                 if not sim_result[0]:
                     self.metrics["errors"] += 1
                     self._save_metrics()
-                    print("Order simulation rejected; skipping this round.")
+                    logger.warning("Order simulation rejected; skipping this round.")
                     await asyncio.sleep(self.freq_sec)
                     continue
 
@@ -463,10 +520,10 @@ class LiveDreamDexBot:
                 self._save_metrics()
                 self._save_state(tx_hash)
                 side = "buy" if is_bid else "sell"
-                print(f"order ok side={side} tx={tx_hash} qty={quantity_raw} price={price_raw}")
+                logger.info(f"order ok side={side} tx={tx_hash} qty={quantity_raw} price={price_raw}")
             except Exception as exc:
                 self.metrics["errors"] += 1
                 self._save_metrics()
-                print(f"order error: {exc}")
+                logger.error(f"order error: {exc}", exc_info=True)
 
             await asyncio.sleep(max(0.5, random.uniform(self.freq_sec * 0.8, self.freq_sec * 1.2)))

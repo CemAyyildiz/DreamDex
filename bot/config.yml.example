@@ -9,11 +9,12 @@ input_code: "SOMI"
 output_code: "USDso"
 market_symbol: "SOMI:USDso"
 input_is_native: true
-only_buy: true
+only_buy: false
+only_sell: false
 min_input: 0.01
 max_input: 0.05
 freq_sec: 10
 slippage_bps: 50
 deadline_sec: 120
-max_orders: 100
+max_orders: null
 priority_fee_gwei: 1
