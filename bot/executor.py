@@ -507,7 +507,10 @@ class LiveDreamDexBot:
 
     def _approve_via_api(self, token: str, amount_needed: int) -> Optional[str]:
         decimals = self._token_decimals(token)
-        amount_human = self._decimal_string(amount_needed, decimals)
+        if amount_needed >= 10 ** (decimals + 12):
+            amount_human = "1000000"
+        else:
+            amount_human = self._decimal_string(amount_needed, decimals)
         body = {
             "walletAddress": self.address,
             "currency": self._currency_code_for_token(token),
@@ -559,12 +562,14 @@ class LiveDreamDexBot:
 
     def _ensure_order_allowance(self, is_bid: bool, quantity_raw: int, price_raw: int) -> Optional[str]:
         token = self.market.quote if is_bid else self.market.base
-        amount_needed = self._approval_amount(is_bid, quantity_raw, price_raw)
-        try:
-            return self._approve_token(token, amount_needed)
-        except Exception as exc:
-            logger.warning(f"Approval failed for {token}: {exc}")
+        if token == self.native_token:
             return None
+        amount_needed = self._approval_amount(is_bid, quantity_raw, price_raw)
+        contract = self.web3.eth.contract(address=token, abi=ERC20_ABI)
+        allowance = int(contract.functions.allowance(self.address, self.market.pool).call())
+        if allowance >= amount_needed:
+            return None
+        return self._approve_token(token, amount_needed)
 
     def _load_metrics(self) -> None:
         try:
@@ -610,17 +615,16 @@ class LiveDreamDexBot:
         return int(self.metrics["volume_in_raw"]) + int(self.metrics["volume_out_raw"])
 
     def _ensure_startup_allowances(self) -> None:
+        # Approve both sides up front so the first sell after a buy does not fail simulation.
         for token in (self.market.quote, self.market.base):
             if token == self.native_token:
                 continue
-            balance = self._token_balance(token)
-            if balance == 0:
-                continue
             try:
-                amount = max(balance, self.market.min_quantity)
-                tx_hash = self._approve_token(token, amount)
+                tx_hash = self._approve_token(token, self.max_approval)
                 if tx_hash:
                     logger.info(f"Startup approval for {token}: {tx_hash}")
+                else:
+                    logger.info(f"Startup approval already sufficient for {token}")
             except Exception as exc:
                 logger.warning(f"Startup approval skipped for {token}: {exc}")
 
@@ -863,6 +867,10 @@ class LiveDreamDexBot:
                 continue
 
             try:
+                approval_tx = self._ensure_order_allowance(is_bid, quantity_raw, price_raw)
+                if approval_tx:
+                    logger.info(f"Allowance tx: {approval_tx}")
+
                 order_type = self._order_type_on_chain()
                 sim_result = self.pool.functions.placeTakerOrderWithoutVault(
                     is_bid,
@@ -883,7 +891,6 @@ class LiveDreamDexBot:
                     await asyncio.sleep(self.freq_sec)
                     continue
 
-                self._ensure_order_allowance(is_bid, quantity_raw, price_raw)
                 tx_hash = self._submit_order(is_bid, quantity_raw, price_raw)
                 receipt = self.web3.eth.wait_for_transaction_receipt(tx_hash)
                 if receipt.status != 1:
