@@ -267,6 +267,7 @@ class LiveDreamDexBot:
         self.reserve_native_wei = int(cfg.get("reserve_native_wei", 50_000_000_000_000_000))
         self.volume_target_quote_raw = cfg.get("volume_target_quote_raw")
         self.freq_sec = float(cfg.get("freq_sec", 18 if self.volume_mode else 10))
+        self.min_loop_sec = float(cfg.get("min_loop_sec", 3 if self.volume_mode else self.freq_sec))
         self.slippage_bps = int(cfg.get("slippage_bps", 50))
         self.deadline_sec = int(cfg.get("deadline_sec", 120))
         self.only_buy = bool(cfg.get("only_buy", False))
@@ -824,8 +825,11 @@ class LiveDreamDexBot:
         self._ensure_startup_allowances()
 
         order_count = 0
-        logger.info("Starting trading loop...")
+        logger.info(
+            f"Starting trading loop (freq_sec={self.freq_sec}, min_loop_sec={self.min_loop_sec})..."
+        )
         while True:
+            loop_sleep = self.freq_sec
             if self.max_orders is not None and order_count >= int(self.max_orders):
                 logger.info("Reached max_orders; stopping.")
                 break
@@ -918,6 +922,7 @@ class LiveDreamDexBot:
                 ):
                     logger.info("Volume target reached; stopping.")
                     break
+                loop_sleep = self.min_loop_sec
             except Exception as exc:
                 self.metrics["errors"] += 1
                 self._save_metrics()
@@ -926,5 +931,6 @@ class LiveDreamDexBot:
                     logger.warning("RPC connection issue; backing off 60s")
                     await asyncio.sleep(60)
                     continue
+                loop_sleep = self.freq_sec
 
-            await asyncio.sleep(max(0.5, random.uniform(self.freq_sec * 0.8, self.freq_sec * 1.2)))
+            await asyncio.sleep(max(0.5, random.uniform(loop_sleep * 0.85, loop_sleep * 1.15)))

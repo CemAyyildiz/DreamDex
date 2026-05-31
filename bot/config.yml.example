@@ -1,34 +1,32 @@
-# DreamDEX mainnet bot — volume profile ($50 competition wallet)
+# DreamDEX mainnet — aggressive volume profile (SOMI:USDso, ~$50 wallet)
 rpc_url: "https://api.infra.mainnet.somnia.network/"
 chain_id: 5031
-explorer_base: "https://explorer.somnia.network"
 market_data_base: "https://api.dreamdex.io"
 private_key_env: "PRIVATE_KEY"
 
-# USDC.e:USDso — min 1 USDC.e (works with ~$50). Use SOMI:USDso only if 1 SOMI < your balance.
-market_symbol: "USDC.e:USDso"
-# pool_address: "0x47fD2f18426f67106DBaC82F6d21D446c5F2120b"
+market_symbol: "SOMI:USDso"
+pool_address: "0x035De7403eac6872787779CCA7CCF1b4CDb61379"
 
 volume_mode: true
-trade_fraction: 0.90
-reserve_quote_fraction: 0.05
-reserve_native_wei: 50000000000000000  # 0.05 SOMI for gas
+trade_fraction: 0.95
+reserve_quote_fraction: 0.02
+reserve_native_wei: 50000000000000000
 
 only_buy: false
 only_sell: false
-freq_sec: 18
-slippage_bps: 100
+freq_sec: 8
+min_loop_sec: 2
+slippage_bps: 150
 deadline_sec: 120
 max_orders: null
 
-# IOC only — do not enable bulk FOK unless you understand thin-book risk
 bulk_mode: false
 use_fok_for_bulk: false
 
-priority_fee_gwei: 1
+priority_fee_gwei: 2
 fallback_gas: 2000000
 metrics_path: metrics.json
 state_path: bot_state.json
 
-# Optional: bot STOPS when cumulative volume reaches this (18-decimal USDso). Omit to run forever.
+# Optional: bot STOPS at this cumulative volume (18-decimal USDso). Omit to run forever.
 # volume_target_quote_raw: 250000000000000000000000

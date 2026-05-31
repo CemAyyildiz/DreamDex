@@ -38,7 +38,8 @@ Recommended market for ~$50 capital: **`USDC.e:USDso`** (min size 1 USDC.e).
 | `PRIVATE_KEY` | Env var name in `.env` (default `PRIVATE_KEY`) |
 | `market_symbol` | e.g. `USDC.e:USDso`, `WETH:USDso`, `SOMI:USDso` |
 | `volume_mode` | Large trades, fewer txs, volume-focused |
-| `freq_sec` | Seconds between order attempts |
+| `freq_sec` | Seconds between attempts after errors / idle |
+| `min_loop_sec` | Shorter delay after a successful fill (volume mode default 3s) |
 | `volume_target_quote_raw` | Optional — bot **stops** at this volume; omit to run forever |
 
 ## Metrics
