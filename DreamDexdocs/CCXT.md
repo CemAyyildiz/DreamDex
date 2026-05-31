@@ -1,0 +1,93 @@
+# CCXT
+
+The CCXT integration is in alpha and is not yet published to npm. Install directly from the branch (see below).
+
+[CCXT](https://github.com/ccxt/ccxt) is an open-source library that provides a unified trading API across 100+ cryptocurrency exchanges. The dreamDEX integration lets you use the same familiar CCXT interface to interact with the DEX.
+
+The source lives on the [add-dreamdex-exchange](https://github.com/somnia-chain/ccxt/tree/add-dreamdex-exchange) branch of Somnia's CCXT fork. TypeScript source and built JavaScript are available; other CCXT-supported languages (Python, PHP, C#, Go) have not yet been generated.
+
+## Installation
+
+Install directly from the branch:
+
+```text
+npm install github:somnia-chain/ccxt#add-dreamdex-exchange
+```
+
+## REST API
+
+```text
+import ccxt from 'ccxt';
+
+const exchange = new ccxt.dreamdex({
+    walletAddress: '0xYourAddress',
+    privateKey: '0xYourPrivateKey',
+});
+
+// Public – no authentication required
+const markets = await exchange.fetchMarkets();
+const ticker = await exchange.fetchTicker('SOMI/USDC');
+const orderBook = await exchange.fetchOrderBook('SOMI/USDC');
+const trades = await exchange.fetchTrades('SOMI/USDC');
+const candles = await exchange.fetchOHLCV('SOMI/USDC', '1h');
+
+// Authenticated
+const order = await exchange.createOrder('SOMI/USDC', 'limit', 'buy', 100, 1.5);
+// → returns an unsigned EVM transaction to sign and broadcast
+```
+
+`createOrder` returns an unsigned EVM transaction (`{ chainId, data, to, value }`), not a confirmed order. You must sign and broadcast it to the Somnia network yourself — see the [Quick Start](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41/welcome/quick-start) guide for the full flow.
+
+## WebSocket (Pro)
+
+```text
+import ccxt from 'ccxt';
+
+const exchange = new ccxt.pro.dreamdex({
+    walletAddress: '0xYourAddress',
+    privateKey: '0xYourPrivateKey',
+});
+
+// Real-time order book
+while (true) {
+    const orderBook = await exchange.watchOrderBook('SOMI/USDC');
+    console.log(orderBook.bids[0], orderBook.asks[0]);
+}
+```
+
+Supported WebSocket methods: `watchOrderBook`, `watchTrades`, `watchOHLCV`.
+
+## Vault Operations
+
+The integration exposes dreamDEX [vault](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41/developers/http-api/vault) operations as additional methods. Each returns an unsigned transaction.
+
+```text
+await exchange.vaultApprove('SOMI/USDC', 'SOMI', 100);
+await exchange.vaultDeposit('SOMI/USDC', 'SOMI', 100);
+await exchange.vaultWithdraw('SOMI/USDC', 'SOMI', 50);
+const balance = await exchange.fetchBalance({ symbol: 'SOMI/USDC' });
+```
+
+## Supported Methods
+
+| Method | Description |
+| --- | --- |
+| `fetchMarkets` | List available trading pairs |
+| `fetchCurrencies` | List supported currencies |
+| `fetchOrderBook` | Order book depth |
+| `fetchTicker` | Ticker snapshot |
+| `fetchTrades` | Recent trades |
+| `fetchOHLCV` | Candlestick data |
+| `createOrder` | Prepare an order (returns unsigned tx) |
+| `fetchOrder` | Get order by ID |
+| `fetchOrders` | List orders for a market |
+| `fetchOpenOrders` | List open orders |
+| `cancelOrder` | Cancel an order |
+| `fetchBalance` | Vault balances (requires `params.symbol`) |
+| `vaultApprove` | Approve token spending |
+| `vaultDeposit` | Deposit into vault |
+| `vaultWithdraw` | Withdraw from vault |
+
+Previous Libraries
+Next WebSocket API
+Last updated 1 month ago

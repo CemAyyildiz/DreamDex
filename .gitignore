@@ -1,14 +1,37 @@
+# Python
 venv/
 .venv/
 __pycache__/
 *.pyc
-config.yml
+*.pyo
+.Python
+
+# Secrets and local config
 .env
+.env.*
+!.env.example
+bot/config.yml
+config.yml
+
+# Runtime state and logs
 metrics.json
+bot/metrics.json
+bot_state.json
+bot/bot_state.json
+bot.log
+logs/
+*.log
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local notes (optional)
 Meet.md
 
-# Feedback/report drafts
+# Duplicate feedback drafts (canonical: docs/FEEDBACK.md)
 reports/
 feedback-report.md
 feedback-report.*
-bot.log

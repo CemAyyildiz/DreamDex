@@ -9,7 +9,9 @@ from pathlib import Path
 import yaml
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
+# Load .env from repo root (works whether cwd is repo root or bot/)
+_repo_root = Path(__file__).resolve().parent.parent
+load_dotenv(_repo_root / ".env")
 load_dotenv()
 
 from executor import LiveDreamDexBot

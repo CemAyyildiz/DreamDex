@@ -1,44 +1,57 @@
-DreamDex SpotRouter Bot
+# DreamDEX SpotPool Volume Bot (Mainnet)
 
-This bot uses the testnet SpotRouter flow documented by dreamDEX:
-- chain ID `50312`
-- `quoteMarketExactIn(...)` for live pricing
-- `swapExactIn(...)` for taker volume
-- one-time operator approval on `OperatorPermissionsRegistry`
+Automated taker orders on dreamDEX **SpotPool** (`placeTakerOrderWithoutVault`) for the alpha trading competition.
 
-Quick start:
+- **Chain:** Somnia mainnet (`5031`)
+- **API:** `https://api.dreamdex.io` (market data + SIWE + order preparation)
+- **Funding:** Wallet (IOC taker orders; no vault)
 
-1. Create a virtualenv and install deps:
+## Quick start
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+
+cp bot/config.yml.example bot/config.yml
+# Add PRIVATE_KEY to .env in repo root (competition wallet only)
+
+./run_bot.sh
 ```
 
-2. Copy `config.yml.example` to `config.yml` and set the token symbols / router overrides you want.
+## Volume mode
 
-3. Export credentials (or put into `.env`):
+Set `volume_mode: true` in `bot/config.yml` (see example). The bot will:
 
-```bash
-export DREAMDEX_API_KEY=your_api_key
-export WALLET_KEY=0x...
-```
+- Use ~90% of spendable balance per trade (`trade_fraction`)
+- Reserve quote + native SOMI for gas
+- Max-approve ERC-20 tokens once at startup
+- Alternate buy/sell for cumulative volume
+- Log approximate cumulative USDso volume after each fill
 
-4. Run the bot (dry-run recommended first):
+Recommended market for ~$50 capital: **`USDC.e:USDso`** (min size 1 USDC.e).
 
-```bash
-python bot/bot.py --config bot/config.yml
-```
+## Config
 
-What it does
-- Discovers the market from the public market-data API.
-- Ensures operator approval and ERC-20 allowance when required.
-- Quotes each trade before submitting the swap.
-- Randomizes input size and delay jitter.
-- Tracks volume and order counts in `metrics.json`.
+| Key | Description |
+|-----|-------------|
+| `PRIVATE_KEY` | Env var name in `.env` (default `PRIVATE_KEY`) |
+| `market_symbol` | e.g. `USDC.e:USDso`, `WETH:USDso`, `SOMI:USDso` |
+| `volume_mode` | Large trades, fewer txs, volume-focused |
+| `freq_sec` | Seconds between order attempts |
+| `volume_target_quote_raw` | Optional — bot **stops** at this volume; omit to run forever |
 
-Notes
-- For native SOMI, keep `input_is_native: true` and set `router_input_token` to the native sentinel.
-- If the market-data quote token differs from the router token, set `router_output_token` explicitly.
-- This is a live on-chain bot. Use testnet first.
+## Metrics
+
+`metrics.json` tracks `volume_in_raw`, `volume_out_raw`, `orders`, `errors`.  
+Approximate USDso volume ≈ `(volume_in_raw + volume_out_raw) / 1e18`.
+
+## Run 24/7
+
+See [docs/DEPLOY.md](../docs/DEPLOY.md) for VPS + systemd setup. Use `./run_forever.sh` to auto-restart on crash.
+
+## Notes
+
+- This is **not** the SpotRouter swap path; it uses the CLOB pool directly.
+- Wallet-funded taker orders must use **IOC** or **FOK** on-chain (bot defaults to IOC).
+- Register your wallet with the competition before trading.
