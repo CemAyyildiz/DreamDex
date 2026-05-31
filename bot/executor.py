@@ -657,8 +657,15 @@ class LiveDreamDexBot:
             aligned = lot
         return max(aligned, self.market.min_quantity)
 
+    def _align_quantity_down(self, quantity_raw: int) -> int:
+        lot = max(1, self.market.lot_size)
+        aligned = (quantity_raw // lot) * lot
+        if aligned < self.market.min_quantity:
+            return 0
+        return aligned
+
     def _sell_quantity_from_balance(self, base_balance_raw: int) -> int:
-        return self._align_to_lot(base_balance_raw)
+        return self._align_quantity_down(base_balance_raw)
 
     def _buy_quantity_from_balance(self, quote_balance_raw: int, price_raw: int) -> int:
         lot = max(1, self.market.lot_size)
@@ -709,7 +716,10 @@ class LiveDreamDexBot:
         if is_bid:
             quote_cost = self._quote_cost(quantity_raw, price_raw)
             return self._token_balance(self.market.quote) >= quote_cost
-        return self._token_balance(self.market.base) >= quantity_raw
+        base_balance = self._token_balance(self.market.base)
+        if self.market.base_is_native:
+            return quantity_raw + self.reserve_native_wei <= base_balance
+        return base_balance >= quantity_raw
 
     def _quote_cost(self, quantity_raw: int, price_raw: int) -> int:
         return int(self.pool.functions.convertToQuoteAtPriceCeil(quantity_raw, price_raw).call())
@@ -734,8 +744,11 @@ class LiveDreamDexBot:
 
         # Bidirectional trading - alternate between buy and sell for maximum volume
         if can_buy and can_sell:
-            # Alternate based on order count for maximum volume
             side = (self.metrics["orders"] % 2) == 0
+            if side and not can_buy:
+                side = False
+            elif not side and not can_sell:
+                side = True
             logger.debug(f"Alternating side: {'buy' if side else 'sell'}")
             return side
         if can_buy:
@@ -866,7 +879,10 @@ class LiveDreamDexBot:
             if not self._can_afford(is_bid, quantity_raw, price_raw):
                 self.metrics["errors"] += 1
                 self._save_metrics()
-                logger.warning("Balance check failed after pricing; retrying later.")
+                side = "buy" if is_bid else "sell"
+                logger.warning(
+                    f"Balance check failed for {side} qty={quantity_raw} price={price_raw}; retrying later."
+                )
                 await asyncio.sleep(self.freq_sec)
                 continue
 
