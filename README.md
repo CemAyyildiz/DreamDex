@@ -31,6 +31,7 @@ See [bot/README.md](bot/README.md) for configuration details.
 |-----|-------------|
 | [docs/DEPLOY.md](docs/DEPLOY.md) | 24/7 VPS + systemd |
 | [docs/FEEDBACK.md](docs/FEEDBACK.md) | Competition feedback report |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Post-competition product roadmap |
 | [SECURITY.md](SECURITY.md) | Secrets and deployment hygiene |
 | [DreamDexdocs/](DreamDexdocs/) | Local copy of protocol documentation |
 
