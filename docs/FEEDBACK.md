@@ -9,7 +9,7 @@
 
 ---
 
-## 1. Competition results & stress test
+## 1. Integration context
 
 Following the team’s request (DM + group announcement), this document records **documentation feedback**, **HTTP API feedback**, and **representative code snippets** from our live integration.
 
@@ -17,17 +17,9 @@ Following the team’s request (DM + group announcement), this document records 
 
 - Mainnet volume bot on a Linux VPS, 24/7, alternating buy/sell on **`SOMI:USDso`**
 - Wallet-funded **IOC** taker orders (`fundingSource: "wallet"`, `placeTakerOrderWithoutVault`)
-- Increased loop frequency after the stack was stable, leaning on **Somnia’s throughput** for a high-transaction stress test
+- ~$50 competition starting capital; focus on **volume and API exercise**, not P&L
 
-**Outcome (approximate)**
-
-- **10,000+ on-chain transactions in under 24 hours** while climbing the leaderboard as **Trader-10**
-- ~$50 competition starting capital; primary goal was **volume / API stress**, not P&L
-- After client-side fixes (gas, allowance, sell sizing), fills were consistent and the API remained usable under load
-
-**Integration path (mainnet CLOB only)**
-
-We used the [Quick Start](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41/welcome/quick-start) wallet-taker flow. We did **not** use [Simple Swap](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41/trading/readme-1/simple-swap) / SpotRouter (separate surface; testnet preview in docs). Early confusion was from prototyping swap-style logic before committing to the documented CLOB path.
+**Integration path used** ([Quick Start](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41/welcome/quick-start) wallet-taker flow):
 
 | Step | Endpoint / action | Result |
 |------|-------------------|--------|
@@ -122,7 +114,7 @@ return self._api_request("POST", f"/v0/markets/{self.market.symbol}/orders", bod
 
 #### 2.4 Gas estimation before broadcast
 
-Simulation passed with low gas; mined txs reverted until we added headroom (~1.5M on `SOMI:USDso`):
+Simulation can pass while mined txs revert if gas is too low; we used `estimate_gas` with headroom (~1.5M on `SOMI:USDso` in our tests):
 
 ```python
 # bot/executor.py — _apply_gas_estimate()
@@ -133,7 +125,7 @@ tx["gas"] = max(int(tx.get("gas", 0)), int(estimated * 1.2))
 
 #### 2.5 Token approval — API `vault/approve` fallback
 
-Documented path; used when direct ERC-20 `approve` on USDso reverted:
+Documented API path for generating approve transactions:
 
 ```python
 # bot/executor.py — _approve_via_api()
@@ -181,9 +173,7 @@ Cross-checked against [docs.dreamdex.io](https://docs.dreamdex.io/ld25g222WKDrLl
 | 1 | Trading API / Quick Start | `eth_call` OK; mined tx reverted until ~1.5M gas on `SOMI:USDso`. API examples show `gasLimit: "250000"`; [Fees](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41/trading/common/fees) gas table is `[TODO]`. | Publish realistic gas ranges for wallet taker fills; troubleshooting: *if simulation passes but tx reverts, `estimate_gas` + headroom*. |
 | 2 | Quick Start / Spot Overview | Spot Overview leads with vault `deposit()`; wallet-taker shortcut is in Quick Start. | One-line callout at top of Quick Start: *volume / competition bots → wallet funding (Option A) + IOC*. |
 | 3 | Market metadata | `minQuantity: 1` SOMI tight for ~$50 wallets. | Highlight min size in market list for small allocations. |
-| 4 | Order Types / Errors | Early client bug used PostOnly (`3`) → `InvalidOrderType`. Docs already warn IOC/FOK for wallet. | Optional: link `InvalidOrderType` from Quick Start troubleshooting. |
-
-We did **not** treat missing testnet/Simple Swap docs as a mainnet gap — that path is documented separately for testnet preview.
+| 4 | Order Types / Errors | `InvalidOrderType` when wallet takers use vault-only types (e.g. PostOnly). Docs already warn IOC/FOK for wallet. | Optional: link `InvalidOrderType` from Quick Start troubleshooting. |
 
 ---
 
@@ -232,20 +222,7 @@ Base URL: `https://api.dreamdex.io` (mainnet).
 - **Zero trading fees** — volume strategies viable; **SOMI gas** is the main recurring cost.
 - **Prepare-order + SIWE** — wallet custody preserved; API composes unsigned txs.
 - **`GET /v0/markets`** — no hardcoded pools required.
-- **Stress test** — 10k+ txs in &lt;24h on VPS without sustained API failure after client fixes; good signal for the competition’s goals.
-
----
-
-## 7. Suggested attachments (submission package)
-
-When sharing with the DreamDEX team (Google Doc / form / Telegram), include:
-
-1. **This document** (or export to PDF / Google Doc)  
-2. **Public repository link** (code — no `.env` or `bot/config.yml` with keys)  
-3. **Leaderboard screenshot** — Trader-10, volume / tx count  
-4. **Explorer link** — one successful `placeTakerOrderWithoutVault` transaction  
-5. **Log excerpt** — lines showing successful fills (`order ok` or similar)  
-6. **Optional** — `metrics.json` snapshot  
+- **API stability** — REST + prepare-order flow remained usable under automated, continuous use on mainnet.
 
 ---
 
