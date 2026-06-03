@@ -34,7 +34,7 @@ def load_config(path: str):
 
 
 async def main():
-    parser = argparse.ArgumentParser(description="DreamDex SpotPool bot")
+    parser = argparse.ArgumentParser(description="DreamDEX SpotPool trading bot")
     parser.add_argument("--config", default="bot/config.yml", help="Path to YAML config")
     args = parser.parse_args()
 

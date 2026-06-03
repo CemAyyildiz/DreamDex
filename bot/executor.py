@@ -255,9 +255,7 @@ class LiveDreamDexBot:
         self.max_orders = cfg.get("max_orders")
         self.min_input = Decimal(str(cfg.get("min_input", "0.01")))
         self.max_input = Decimal(str(cfg.get("max_input", "0.05")))
-        # Bulk/volume strategy: when enabled, increase per-order size to raise
-        # volume while keeping transaction count low. Can use FOK to avoid
-        # partial fills if desired.
+        # High-turnover mode: larger per-order size, fewer transactions
         self.volume_mode = bool(cfg.get("volume_mode", False))
         self.bulk_mode = bool(cfg.get("bulk_mode", False))
         self.bulk_multiplier = int(cfg.get("bulk_multiplier", 5))
@@ -304,7 +302,7 @@ class LiveDreamDexBot:
                 f"(reserve {self.reserve_native_wei})"
             )
 
-        mode = "volume" if self.volume_mode else "standard"
+        mode = "high_turnover" if self.volume_mode else "standard"
         logger.info(
             f"Bot initialized: wallet={self.address}, market={self.market.symbol}, mode={mode}"
         )
@@ -742,7 +740,7 @@ class LiveDreamDexBot:
         if self.only_sell:
             return False if can_sell else None
 
-        # Bidirectional trading - alternate between buy and sell for maximum volume
+        # Alternate buy/sell when both sides are affordable
         if can_buy and can_sell:
             side = (self.metrics["orders"] % 2) == 0
             if side and not can_buy:
@@ -828,11 +826,11 @@ class LiveDreamDexBot:
         logger.info(f"Base token: {self.market.base} | Quote token: {self.market.quote}")
         if self.volume_mode:
             logger.info(
-                f"Volume mode: trade_fraction={self.trade_fraction} "
+                f"High-turnover mode: trade_fraction={self.trade_fraction} "
                 f"freq_sec={self.freq_sec} order_type=IOC"
             )
             if self.volume_target_quote_raw is not None:
-                logger.info(f"Volume target (quote raw): {self.volume_target_quote_raw}")
+                logger.info(f"Notional stop target (quote raw): {self.volume_target_quote_raw}")
 
         self._preflight_checks()
         self._ensure_startup_allowances()
@@ -930,13 +928,13 @@ class LiveDreamDexBot:
                 vol_quote = self._cumulative_volume_quote_raw() / (10 ** self.market.quote_decimals)
                 logger.info(
                     f"order ok side={side} tx={tx_hash} qty={quantity_raw} price={price_raw} "
-                    f"cumulative_volume_quote≈{vol_quote:.2f}"
+                    f"cumulative_notional≈{vol_quote:.2f}"
                 )
                 if (
                     self.volume_target_quote_raw is not None
                     and self._cumulative_volume_quote_raw() >= int(self.volume_target_quote_raw)
                 ):
-                    logger.info("Volume target reached; stopping.")
+                    logger.info("Notional stop target reached; stopping.")
                     break
                 loop_sleep = self.min_loop_sec
             except Exception as exc:

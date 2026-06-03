@@ -1,13 +1,14 @@
-# DreamDEX Volume Bot
+# DreamDEX Trading Bot
 
-Mainnet trading bot for the [DreamDEX](https://docs.dreamdex.io) alpha competition — generates volume via wallet-funded IOC taker orders on `SpotPool` (`placeTakerOrderWithoutVault`).
+Automated spot trading on [DreamDEX](https://docs.dreamdex.io) — wallet-funded orders on Somnia mainnet via `SpotPool` (`placeTakerOrderWithoutVault`).
 
 ## Features
 
 - Somnia mainnet (chain `5031`)
-- REST market data + SIWE auth + prepared orders
-- Volume mode: large trades, buy/sell alternation, gas estimation
-- Preflight script before live trading
+- REST market discovery, SIWE auth, and prepared orders
+- Configurable buy/sell loop with slippage control and gas estimation
+- Optional high-turnover mode (`volume_mode`) for larger per-trade sizing
+- Preflight checks before live trading
 
 ## Quick start
 
@@ -30,8 +31,8 @@ See [bot/README.md](bot/README.md) for configuration details.
 | Doc | Description |
 |-----|-------------|
 | [docs/DEPLOY.md](docs/DEPLOY.md) | 24/7 VPS + systemd |
-| [docs/FEEDBACK.md](docs/FEEDBACK.md) | Competition feedback report |
-| [docs/ROADMAP.md](docs/ROADMAP.md) | Post-competition product roadmap |
+| [docs/INTEGRATION.md](docs/INTEGRATION.md) | Mainnet integration notes (gas, approvals, API) |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Product roadmap |
 | [SECURITY.md](SECURITY.md) | Secrets and deployment hygiene |
 | [DreamDexdocs/](DreamDexdocs/) | Local copy of protocol documentation |
 
@@ -45,4 +46,4 @@ See [bot/README.md](bot/README.md) for configuration details.
 
 ## License
 
-Competition / evaluation submission — see repository owner.
+See repository owner.

@@ -1,26 +1,27 @@
 # Running the bot 24/7
 
-The bot stops when your machine sleeps, the terminal closes, or the process is killed. For **continuous volume** during the competition, run it on a remote Linux server.
+The bot stops when your machine sleeps, the terminal closes, or the process is killed. For uninterrupted trading, run it on a remote Linux server.
 
 ## Options
 
 | Method | When to use |
 |--------|-------------|
-| **VPS / cloud** (recommended) | Uninterrupted trading for the full competition window |
+| **VPS / cloud** (recommended) | Production — always-on execution |
 | Mac + `nohup` / `run_forever.sh` | Local testing only; not reliable overnight |
 | **systemd** (Linux VPS) | Production — auto-restart on crash |
 
 ## 1. Linux VPS (DigitalOcean, Hetzner, AWS EC2, etc.)
 
 ```bash
-git clone <your-repo-url> DreamDex && cd DreamDex
+git clone https://github.com/CemAyyildiz/DreamDex.git && cd DreamDex
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp bot/config.yml.example bot/config.yml
-# Edit bot/config.yml (market, freq_sec, volume_mode)
-nano .env   # PRIVATE_KEY=0x... (competition wallet only — never commit)
+# Edit bot/config.yml (market, slippage, volume_mode)
+nano .env   # PRIVATE_KEY=0x... (never commit)
 
 chmod +x run_forever.sh
+python3 bot/preflight.py --config bot/config.yml
 ```
 
 ### systemd (recommended)
@@ -29,7 +30,7 @@ Create `/etc/systemd/system/dreamdex-bot.service`:
 
 ```ini
 [Unit]
-Description=DreamDEX volume bot
+Description=DreamDEX trading bot
 After=network-online.target
 Wants=network-online.target
 
@@ -75,14 +76,19 @@ Sleep and closed laptops will stop the bot — use a VPS for multi-day runs.
 ```bash
 tail -f bot.log              # if using run_bg.sh
 tail -f logs/bot-forever.log # if using run_forever.sh
-cat metrics.json             # cumulative volume counters
+cat metrics.json             # order/error counters
 pgrep -fl bot/bot.py         # process running?
 ```
 
-## 4. Volume target
+## 4. Stop conditions
 
-Leave `volume_target_quote_raw` **unset** in `bot/config.yml` so the bot never stops on a volume cap. Use the leaderboard only to track progress toward goals (e.g. 250k USDso).
+Optional limits in `bot/config.yml`:
+
+- `max_orders` — stop after N successful fills
+- `volume_target_quote_raw` — stop at a cumulative notional threshold (high-turnover mode)
+
+Leave both unset for an indefinite run.
 
 ## 5. Security on the server
 
-See [SECURITY.md](../SECURITY.md). Summary: protect `.env`, use SSH keys, dedicated competition wallet only.
+See [SECURITY.md](../SECURITY.md). Summary: protect `.env`, use SSH keys, dedicated trading wallet with limited funds.

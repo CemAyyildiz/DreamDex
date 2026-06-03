@@ -28,10 +28,9 @@ logs/
 .vscode/
 *.swp
 
-# Local notes (optional)
+# Local notes / drafts (not for publication)
 Meet.md
-
-# Duplicate feedback drafts (canonical: docs/FEEDBACK.md)
+docs/archive/
 reports/
 feedback-report.md
 feedback-report.*

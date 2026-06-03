@@ -4,7 +4,7 @@
 
 | File | Purpose |
 |------|---------|
-| `.env` | `PRIVATE_KEY` for the competition wallet |
+| `.env` | `PRIVATE_KEY` for the trading wallet |
 | `bot/config.yml` | Local overrides (copied from example) |
 | `metrics.json` | Runtime trading metrics |
 | `bot_state.json` | Last tx / wallet state |
@@ -14,16 +14,16 @@ All of the above are listed in `.gitignore`. Use `.env.example` and `bot/config.
 
 ## Wallet hygiene
 
-- Use a **dedicated competition wallet** with only the allocated capital (~$50 USDso + gas SOMI).
+- Use a **dedicated trading wallet** — fund only what you are willing to lose.
 - Do not reuse personal wallets or commit private keys to Git, screenshots, or chat.
-- Register the wallet with the competition before trading.
+- Keep enough native SOMI on-chain for gas when trading native-base markets.
 
 ## Server deployment
 
 - Restrict `.env` permissions: `chmod 600 .env`
 - Prefer SSH keys over password login on VPS
 - Do not expose `.env` or logs via public HTTP
-- Rotate or destroy the VPS after the competition if the key was stored on disk
+- Rotate the wallet if a key may have been exposed; treat the old key as compromised
 
 ## Dependencies
 
@@ -35,4 +35,4 @@ Pin versions in production; review updates before upgrading `web3` / `eth-accoun
 
 ## Reporting issues
 
-If you discover a key committed by mistake, rotate the wallet immediately with organizers and purge history before pushing again.
+If you discover a key committed by mistake, rotate the wallet immediately and purge history before pushing again.

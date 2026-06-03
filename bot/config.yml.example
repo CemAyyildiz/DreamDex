@@ -1,22 +1,22 @@
-# DreamDEX mainnet — aggressive volume profile (SOMI:USDso, ~$50 wallet)
+# DreamDEX mainnet — standard trading profile
 rpc_url: "https://api.infra.mainnet.somnia.network/"
 chain_id: 5031
 market_data_base: "https://api.dreamdex.io"
 private_key_env: "PRIVATE_KEY"
 
-market_symbol: "SOMI:USDso"
-pool_address: "0x035De7403eac6872787779CCA7CCF1b4CDb61379"
+market_symbol: "USDC.e:USDso"
+# pool_address: optional override; discovered via GET /v0/markets
 
-volume_mode: true
-trade_fraction: 0.95
-reserve_quote_fraction: 0.02
+volume_mode: false
+trade_fraction: 0.90
+reserve_quote_fraction: 0.05
 reserve_native_wei: 50000000000000000
 
 only_buy: false
 only_sell: false
-freq_sec: 8
-min_loop_sec: 2
-slippage_bps: 150
+freq_sec: 10
+min_loop_sec: 5
+slippage_bps: 50
 deadline_sec: 120
 max_orders: null
 
@@ -28,5 +28,5 @@ fallback_gas: 2000000
 metrics_path: metrics.json
 state_path: bot_state.json
 
-# Optional: bot STOPS at this cumulative volume (18-decimal USDso). Omit to run forever.
+# High-turnover mode (volume_mode: true) — optional stop at cumulative notional (18-decimal quote)
 # volume_target_quote_raw: 250000000000000000000000

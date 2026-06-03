@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Keeps the volume bot running: restarts on crash, survives terminal close (use with nohup or systemd).
+# Keeps the trading bot running: restarts on crash, survives terminal close (use with nohup or systemd).
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
