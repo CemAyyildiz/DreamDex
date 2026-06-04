@@ -1,6 +1,8 @@
-# DreamDEX Trading Bot
+# DreamDEX Trade Bot
 
-Automated spot trading on [DreamDEX](https://docs.dreamdex.io) — wallet-funded orders on Somnia mainnet via `SpotPool` (`placeTakerOrderWithoutVault`).
+Automated spot trading bot for [DreamDEX](https://docs.dreamdex.io) — wallet-funded orders on Somnia mainnet via `SpotPool` (`placeTakerOrderWithoutVault`).
+
+**Repository:** https://github.com/CemAyyildiz/dreamdex-trade-bot
 
 ## Features
 

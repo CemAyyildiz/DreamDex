@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Helper to securely load .env and run the DreamDex bot
+# Helper to securely load .env and run the DreamDEX Trade Bot
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"

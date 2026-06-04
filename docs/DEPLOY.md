@@ -13,7 +13,7 @@ The bot stops when your machine sleeps, the terminal closes, or the process is k
 ## 1. Linux VPS (DigitalOcean, Hetzner, AWS EC2, etc.)
 
 ```bash
-git clone https://github.com/CemAyyildiz/DreamDex.git && cd DreamDex
+git clone https://github.com/CemAyyildiz/dreamdex-trade-bot.git && cd dreamdex-trade-bot
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 cp bot/config.yml.example bot/config.yml
@@ -30,20 +30,20 @@ Create `/etc/systemd/system/dreamdex-bot.service`:
 
 ```ini
 [Unit]
-Description=DreamDEX trading bot
+Description=DreamDEX Trade Bot
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/DreamDex
-EnvironmentFile=/home/ubuntu/DreamDex/.env
-ExecStart=/home/ubuntu/DreamDex/.venv/bin/python3 -u bot/bot.py --config bot/config.yml
+WorkingDirectory=/home/ubuntu/dreamdex-trade-bot
+EnvironmentFile=/home/ubuntu/dreamdex-trade-bot/.env
+ExecStart=/home/ubuntu/dreamdex-trade-bot/.venv/bin/python3 -u bot/bot.py --config bot/config.yml
 Restart=always
 RestartSec=30
-StandardOutput=append:/home/ubuntu/DreamDex/logs/bot.log
-StandardError=append:/home/ubuntu/DreamDex/logs/bot.log
+StandardOutput=append:/home/ubuntu/dreamdex-trade-bot/logs/bot.log
+StandardError=append:/home/ubuntu/dreamdex-trade-bot/logs/bot.log
 
 [Install]
 WantedBy=multi-user.target
@@ -58,12 +58,12 @@ sudo systemctl status dreamdex-bot
 journalctl -u dreamdex-bot -f
 ```
 
-Alternative: `ExecStart=/home/ubuntu/DreamDex/run_forever.sh` (supervisor loop with 30s delay on exit).
+Alternative: `ExecStart=/home/ubuntu/dreamdex-trade-bot/run_forever.sh` (supervisor loop with 30s delay on exit).
 
 ## 2. macOS (temporary)
 
 ```bash
-cd DreamDex
+cd dreamdex-trade-bot
 chmod +x run_forever.sh
 nohup ./run_forever.sh > logs/supervisor.out 2>&1 &
 tail -f logs/bot-forever.log

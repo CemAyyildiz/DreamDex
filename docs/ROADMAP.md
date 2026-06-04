@@ -1,4 +1,4 @@
-# Product Roadmap — DreamDEX Trading Bot
+# Product Roadmap — DreamDEX Trade Bot
 
 ## Current state (v0.1)
 

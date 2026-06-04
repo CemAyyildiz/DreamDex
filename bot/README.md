@@ -1,4 +1,4 @@
-# DreamDEX SpotPool Trading Bot
+# DreamDEX Trade Bot — SpotPool engine
 
 Automated taker orders on DreamDEX **SpotPool** (`placeTakerOrderWithoutVault`).
 

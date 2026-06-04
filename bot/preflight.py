@@ -16,7 +16,7 @@ from executor import LiveDreamDexBot, ORDER_IOC  # noqa: E402
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="DreamDEX bot preflight")
+    parser = argparse.ArgumentParser(description="DreamDEX Trade Bot preflight")
     parser.add_argument("--config", default="bot/config.yml")
     args = parser.parse_args()
 

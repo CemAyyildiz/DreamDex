@@ -1,4 +1,4 @@
-# DreamDEX mainnet — standard trading profile
+# DreamDEX Trade Bot — mainnet standard profile
 rpc_url: "https://api.infra.mainnet.somnia.network/"
 chain_id: 5031
 market_data_base: "https://api.dreamdex.io"

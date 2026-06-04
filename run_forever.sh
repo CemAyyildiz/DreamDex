@@ -18,7 +18,7 @@ fi
 mkdir -p logs
 LOG="logs/bot-forever.log"
 
-echo "DreamDex bot supervisor started at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >>"$LOG"
+echo "DreamDEX Trade Bot supervisor started at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >>"$LOG"
 
 while true; do
   echo "Starting bot at $(date -u +%Y-%m-%dT%H:%M:%SZ)" >>"$LOG"

@@ -1,4 +1,4 @@
-# DreamDEX Mainnet Integration Notes
+# DreamDEX Trade Bot — Mainnet Integration Notes
 
 Technical notes from building and running the wallet-funded taker bot on Somnia mainnet (`5031`). For protocol reference, see [DreamDexdocs/](../DreamDexdocs/) and [docs.dreamdex.io](https://docs.dreamdex.io/ld25g222WKDrLlJMcR41).
 
